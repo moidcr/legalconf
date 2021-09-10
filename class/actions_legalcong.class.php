@@ -310,38 +310,49 @@ class ActionsLegalCong
 
 	/* Add here any other hooked methods... */
 	
-	public function updateSession($arr, $user, $action)
+	public function afterLogin($arr, $user, $action)
 	{
-		global $passwordtotest, $usertotest;
-		//echo "ss";
-		//exit;
+		global  $usertotest, $passwordtotest;
 		$currurl = $_SERVER['PHP_SELF'];
 		$user->getrights();
-		//echo $usertotest."=>>>".$passwordtotest;
-        //echo $user->rights->legalcong->myobject->location."//".strpos($currurl,"custom/legal")."==>".$user->admin;
-        //echo $passwordtotest;
-        //exit;
-		$admin = "YES";
-		if($user->rights->legalcong->myobject->location && strpos($currurl,"custom/legal")== false && !$user->admin)
-			$admin = "NO";
-			if($passwordtotest != "" && $usertotest !="")
-				header("Location: ".DOL_URL_ROOT."/legal/login?pass=".$passwordtotest."&user=".$usertotest."&dol=YES&admind=".$admin);
+
+		if($usertotest !="")
+		{
+	       	$admin = "YES";
+	       	if(!$user->admin)
+	       		$admin = "NO";
+		
+			if($user->rights->legalcong->myobject->location && strpos($currurl,"/legal/")=== false)
+			{
+				header("Location: /legal/app/index.php/login?pass=".$passwordtotest."&user=".$usertotest."&dol=YES&admind=".$admin);
+				exit;
+			}
+		}
 	}
 	
 	public function setHtmlTitle($arr, $user, $action)
 	{
-		global $passwordtotest, $usertotest;
-		//echo "sd";
-		//exit;
-		global $user;
+		
+		global $user, $titletoshow;
 		$currurl = $_SERVER['PHP_SELF'];
-		//echo $usertotest."=>>>".$passwordtotest;
-        //echo $user->rights->legalcong->myobject->location."////".strpos($currurl,"custom/legal")."==>".$user->admin;
-        //exit;
-        $admin = "YES";
-		if($user->rights->legalcong->myobject->location && strpos($currurl,"custom/legal")== false && !$user->admin)
-			$admin = "NO";
-			if($passwordtotest != "" && $usertotest !="")
-				header("Location: ".DOL_URL_ROOT."/legal/login?pass=".$passwordtotest."&user=".$usertotest."&dol=YES&admind=".$admin);
+		$user->getrights();
+		
+		//echo "===dd=>".$currurl."=>".strpos($currurl,"/legal/");
+		//exit;
+
+	    $admin = "YES";
+	    if(!$user->admin)
+	    {
+			if($user->rights->legalcong->myobject->location && strpos($currurl,"/legal/")=== false)
+			{
+				
+				header("Location: /legal/");
+				exit;
+			}
+		}
+	
+		$this->resprints = 'Assets Trust 2.0.0';
+		return 1;
+		
 	}
 }

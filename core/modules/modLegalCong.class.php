@@ -116,6 +116,7 @@ class modLegalCong extends DolibarrModules
 			// Set here all hooks context managed by module. To find available hook context, make a "grep -r '>initHooks(' *" on source code. You can also set hook context to 'all'
 			'hooks' => array(
 				   'data' => array(
+				       'login',
 				       'main',
 				//       'hookcontext2',
 				   ),
@@ -295,9 +296,9 @@ class modLegalCong extends DolibarrModules
 			'fk_menu'=>'', // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'type'=>'top', // This is a Top menu entry
 			'titre'=>'ModuleLegalCongName',
-			'mainmenu'=>'legalcong',
+			'mainmenu'=>'legal',
 			'leftmenu'=>'',
-			'url'=>'/legalcong/legalcongindex.php',
+			'url'=>'../legal/app/',
 			'langs'=>'legalcong@legalcong', // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
 			'position'=>1000 + $r,
 			'enabled'=>'$conf->legalcong->enabled', // Define condition to show or hide menu entry. Use '$conf->legalcong->enabled' if entry must be visible if module is enabled.
