@@ -18,7 +18,7 @@
 #
 
 # Module label 'ModuleLegalCongName'
-ModuleLegalCongName = Legal
+ModuleLegalCongName = Lila 2.0.0
 # Module description 'ModuleLegalCongDesc'
 ModuleLegalCongDesc = Módulo de Legal Assets Trust
 
@@ -33,6 +33,11 @@ LEGALCONG_MYPARAM1Tooltip = My param 1 tooltip
 LEGALCONG_MYPARAM2=My param 2
 LEGALCONG_MYPARAM2Tooltip=My param 2 tooltip
 
+
+#Modules
+society = Sociedad
+
+contact = Contacto
 
 #
 # About page
@@ -49,5 +54,16 @@ MyPageName = My page name
 #
 # Sample widget
 #
-MyWidget = My widget
-MyWidgetDescription = My widget description
+BoxLegalFilesCreateByMonth = Expedientes creados por mes y año
+MyWidgetDescription = Panel gráfico que muestra los expedientes creados por mes
+NumberOfFilesByMonth = Expedientes creados por mes y año
+Top10ModifiedContact = Top 10 - Contactos modificados
+Top10CreatedFiles = Top 10 - Expedientes creados
+Top10InactivedFiles = Top 10 - Expedientes inactivos
+Top10ProformasActives = Top 10 - Proformas Activas y en Curso
+Top10ProformasProccessed = Top 10 - Proformas Procesadas
+BoxLegalCasesCreateByMonth = Gráfico mensual casos creados
+NumberOfCasesByMonth = Número de casos creados por mes
+BalanceByMonth = Saldos
+BoxLegalBalance = Saldos pendientes , recobrados actuales y facturados
+Top10CasesClosed = Top 10 - Casos cerrados y pendientes

@@ -83,7 +83,7 @@ class modLegalCong extends DolibarrModules
 		// If file is in theme/yourtheme/img directory under name object_pictovalue.png, use this->picto='pictovalue'
 		// If file is in module/img directory under name object_pictovalue.png, use this->picto='pictovalue@module'
 		// To use a supported fa-xxx css style of font awesome, use this->picto='xxx'
-		$this->picto = 'generic';
+		$this->picto = 'pictovalue@custom/legalcong';
 
 		// Define some features supported by module (triggers, login, substitutions, menus, css, etc...)
 		$this->module_parts = array(
@@ -107,7 +107,7 @@ class modLegalCong extends DolibarrModules
 			'theme' => 0,
 			// Set this to relative path of css file if module has its own css file
 			'css' => array(
-				//    '/legalcong/css/legalcong.css.php',
+				    '/legalcong/css/legalcong.css',
 			),
 			// Set this to relative path of js file if module must load a js on all pages
 			'js' => array(
@@ -118,6 +118,7 @@ class modLegalCong extends DolibarrModules
 				   'data' => array(
 				       'login',
 				       'main',
+				       'actioncard'
 				//       'hookcontext2',
 				   ),
 				   'entity' => '0',
@@ -228,12 +229,72 @@ class modLegalCong extends DolibarrModules
 
 		// Boxes/Widgets
 		// Add here list of php file(s) stored in legalcong/core/boxes that contains a class to show a widget.
-		$this->boxes = array(
+		/*$this->boxes = array(
 			//  0 => array(
 			//      'file' => 'legalcongwidget1.php@legalcong',
 			//      'note' => 'Widget provided by LegalCong',
 			//      'enabledbydefaulton' => 'Home',
 			//  ),
+			//  ...
+		);*/
+		
+		// Add here list of php file(s) stored in birthdaysoc/core/boxes that contains a class to show a widget.
+		$this->boxes = array(
+			  0 => array(
+			      'file' => 'legalfilescreatebymonth.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  1 => array(
+			      'file' => 'legalcontactsmodifies.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  2 => array(
+			      'file' => 'legalfilescreated.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  3 => array(
+			      'file' => 'legalfilesinactives.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  4 => array(
+			      'file' => 'legalproformasactives.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  5 => array(
+			      'file' => 'legalproformasproccessed.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  6 => array(
+			      'file' => 'legalcasescreatebymonth.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  7 => array(
+			      'file' => 'legalbalance.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  ),
+			  8 => array(
+			      'file' => 'legalcasesclosed.php@custom/legalcong',
+			      'note' => '',
+			      'enabledbydefaulton' => 'Home',
+
+			  )
+			  
 			//  ...
 		);
 
@@ -418,14 +479,20 @@ class modLegalCong extends DolibarrModules
 		$result = $this->_load_tables('/legalcong/sql/');
 		if ($result < 0) return -1; // Do not activate module if error 'not allowed' returned when loading module SQL queries (the _load_table run sql with run_sql with the error allowed parameter set to 'default')
 
-		// Create extrafields during init
-		//include_once DOL_DOCUMENT_ROOT.'/core/class/extrafields.class.php';
-		//$extrafields = new ExtraFields($this->db);
-		//$result1=$extrafields->addExtraField('legalcong_myattr1', "New Attr 1 label", 'boolean', 1,  3, 'thirdparty',   0, 0, '', '', 1, '', 0, 0, '', '', 'legalcong@legalcong', '$conf->legalcong->enabled');
-		//$result2=$extrafields->addExtraField('legalcong_myattr2', "New Attr 2 label", 'varchar', 1, 10, 'project',      0, 0, '', '', 1, '', 0, 0, '', '', 'legalcong@legalcong', '$conf->legalcong->enabled');
-		//$result3=$extrafields->addExtraField('legalcong_myattr3', "New Attr 3 label", 'varchar', 1, 10, 'bank_account', 0, 0, '', '', 1, '', 0, 0, '', '', 'legalcong@legalcong', '$conf->legalcong->enabled');
-		//$result4=$extrafields->addExtraField('legalcong_myattr4', "New Attr 4 label", 'select',  1,  3, 'thirdparty',   0, 1, '', array('options'=>array('code1'=>'Val1','code2'=>'Val2','code3'=>'Val3')), 1,'', 0, 0, '', '', 'legalcong@legalcong', '$conf->legalcong->enabled');
-		//$result5=$extrafields->addExtraField('legalcong_myattr5', "New Attr 5 label", 'text',    1, 10, 'user',         0, 0, '', '', 1, '', 0, 0, '', '', 'legalcong@legalcong', '$conf->legalcong->enabled');
+		$extrafields = new ExtraFields($this->db);
+		$result1 = $extrafields->addExtraField('fk_society', 'society', 'sellist', 100, '', 'actioncomm', 0, 0, '', 'a:1:{s:7:"options";a:1:{s:28:"bf_society:soc_name:soc_id::";N;}}', 1, '', 1);
+		if (! $result1)
+		{
+			$this->error=$extrafields->error;
+			return -1;
+		}
+		
+		$result2 = $extrafields->addExtraField('fk_contact', 'contact', 'select', 100, '', 'actioncomm', 0, 0, '', 'a:1:{s:7:"options";a:1:{s:0:"";s:10:"Seleccione";}}', 1, '', 1);
+		if (! $result2)
+		{
+			$this->error=$extrafields->error;
+			return -1;
+		}
 
 		// Permissions
 		$this->remove($options);

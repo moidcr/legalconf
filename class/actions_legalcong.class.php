@@ -307,6 +307,7 @@ class ActionsLegalCong
 
 		return 0;
 	}
+	
 
 	/* Add here any other hooked methods... */
 	
@@ -324,7 +325,8 @@ class ActionsLegalCong
 		
 			if($user->rights->legalcong->myobject->location && strpos($currurl,"/legal/")=== false)
 			{
-				header("Location: /legal/app/index.php/login?pass=".$passwordtotest."&user=".$usertotest."&dol=YES&admind=".$admin);
+				//header("Location: /legal/app/index.php/login?pass=".$passwordtotest."&user=".$usertotest."&dol=YES&admind=".$admin);
+				header("Location: ".DOL_URL_ROOT."/legal/app/index.php/login?pass=".$passwordtotest."&user=".$usertotest."&dol=YES&admind=".$admin);
 				exit;
 			}
 		}
@@ -346,13 +348,84 @@ class ActionsLegalCong
 			if($user->rights->legalcong->myobject->location && strpos($currurl,"/legal/")=== false)
 			{
 				
-				header("Location: /legal/");
-				exit;
+				//header("Location: /legal/");
+				//header("Location: ".DOL_URL_ROOT."/legal/");
+				//exit;
 			}
 		}
 	
-		$this->resprints = 'Assets Trust 2.0.0';
+		$this->resprints = 'Lila 2.0.0';
 		return 1;
 		
+	}
+	
+	public function formObjectOptions($parameters, $object, $action)
+	{
+		
+		if(in_array('actioncard', explode(':', $parameters['context'])))	    // do something only for the context 'somecontext1' or 'somecontext2'
+		{
+			
+			
+			$script='
+			<script src="../../legal/app/assets/js/codeigniter-csrf.js"></script>
+			<script>
+			    $( document ).ready(function() {
+			        if($("#options_fk_society").length > 0 && $("#options_fk_contact").length > 0)
+			        {
+				        //COMBO CONTACT
+$(document).on("change","#options_fk_society",function(){
+
+            $.ajax({ url: "http://localhost/nova/htdocs/legal/app/index.php/admin/files/society_pty/person_contacts",
+               type: "POST",
+               data: {ci_csrf_token:ci_csrf_token(),
+                      person_id: $("#options_fk_society").val()},
+                success: function(data){
+
+                        var response = JSON.parse(data);
+
+                        $("#options_fk_contact").empty();
+
+                        jQuery("<option/>", {
+                        value: "",
+                        html: ""
+                        }).appendTo("#options_fk_contact");
+
+                        if (response != null) {
+
+
+                            for(var i=0; i< response.length;i++)
+                            {
+                            //creates option tag
+                              jQuery("<option/>", {
+                                    value: response[i].contact_id,
+                                    html: response[i].fullname
+                                    }).appendTo("#options_fk_contact"); //appends to select if parent div has id dropdown
+                            }
+
+                        }
+
+                        $("#select2-soc_contact_id-container").val("");
+                        $("#select2-soc_contact_id-container").text("");
+
+
+                    }
+
+					})
+
+
+				});
+				    }
+				    
+				    var cont_ = $("#options_fk_contact").val();
+				    $("#options_fk_society").trigger("change");
+				    setTimeout(function(){$("#options_fk_contact").val(cont_); }, 500);;
+
+			    });
+			</script>
+			';
+			
+			echo $script;
+			
+		}
 	}
 }
